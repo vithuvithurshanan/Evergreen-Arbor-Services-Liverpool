@@ -1,0 +1,8 @@
+# This directory holds gallery photographs for the Evergreen Arbor Services website.
+#
+# Expected format per image:
+#   <slug>.webp   — primary WebP asset (processed by vite-imagetools)
+#   <slug>.jpg    — JPEG fallback for browsers without WebP support
+#
+# Replace the placeholder paths in src/data/gallery.ts with real image file
+# names once site photography has been provided and processed.
