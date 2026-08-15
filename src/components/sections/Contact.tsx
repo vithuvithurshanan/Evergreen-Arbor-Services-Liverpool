@@ -1,7 +1,6 @@
-import { Mail, MapPin, Phone, MessageSquare, Clock } from 'lucide-react'
+import { Mail, MapPin, Phone, MessageSquare, Clock, ShieldCheck, CheckCircle2 } from 'lucide-react'
 import { SITE_CONFIG } from '@/config/site'
 import QuoteRequestForm from '@/components/forms/QuoteRequestForm'
-import { InstantCostEstimator } from '@/components/ui/InstantCostEstimator'
 import { trackCtaClick } from '@/utils/analytics'
 
 export default function Contact() {
@@ -85,9 +84,36 @@ export default function Contact() {
             <QuoteRequestForm />
           </div>
 
-          {/* Right Column: Calculator + Map */}
-          <div className="lg:col-span-5 space-y-8">
-            <InstantCostEstimator />
+          {/* Right Column: Trust Card + Map */}
+          <div className="lg:col-span-5 space-y-6">
+            
+            {/* Quick Guarantee Box */}
+            <div className="glass-card rounded-2xl p-6 border border-slate-800 bg-slate-900/80 shadow-2xl backdrop-blur-xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white">Our Free Quote Promise</h3>
+                  <p className="text-xs text-slate-400">No hidden fees or obligations</p>
+                </div>
+              </div>
+
+              <ul className="space-y-3 text-xs text-slate-300">
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Response within 1 business day guaranteed</span>
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Free site visit &amp; tree assessment in Liverpool</span>
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Fixed, fully transparent written quote</span>
+                </li>
+              </ul>
+            </div>
 
             {/* Google Map Container */}
             <div className="glass-card rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
@@ -99,13 +125,14 @@ export default function Contact() {
                 title="Evergreen Arbor Services service area — Liverpool, Merseyside"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d76198.4!2d-2.9916!3d53.4084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487b215814e33fb7%3A0x767a67248a756eca!2sLiverpool!5e0!3m2!1sen!2suk!4v1"
                 width="100%"
-                height="280"
+                height="340"
                 style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
+
           </div>
 
         </div>

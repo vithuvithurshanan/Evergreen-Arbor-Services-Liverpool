@@ -1,14 +1,10 @@
-import { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Menu, X, PhoneCall } from 'lucide-react'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { useClickOutside } from '../../hooks/useClickOutside'
 import { VideoLogo } from '../ui/VideoLogo'
 import { SITE_CONFIG } from '@/config/site'
 
-/**
- * Navigation links for the single-page layout.
- * Each label maps to a section id (hash target).
- */
 const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
   { label: 'Services', href: '#services' },
@@ -18,26 +14,39 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ] as const
 
-/** Section ids passed to useActiveSection – must stay in sync with NAV_LINKS. */
 const SECTION_IDS = ['hero', 'services', 'about', 'gallery', 'testimonials', 'contact'] as const
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const activeSection = useActiveSection([...SECTION_IDS])
+  const activeSectionFromHook = useActiveSection([...SECTION_IDS])
+  const [overrideActive, setOverrideActive] = useState<string | null>(null)
   const navRef = useRef<HTMLElement>(null)
+
+  const activeSection = overrideActive ?? activeSectionFromHook
 
   const closeMenu = useCallback(() => setIsMenuOpen(false), [])
   const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), [])
 
   useClickOutside(navRef, closeMenu)
 
+  const handleNavClick = (_e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const targetId = href.replace('#', '')
+    setOverrideActive(targetId)
+    closeMenu()
+
+    // Clear manual override after scroll completes
+    setTimeout(() => {
+      setOverrideActive(null)
+    }, 800)
+  }
+
   function linkClasses(sectionId: string): string {
     const base =
-      'transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-lg px-3 py-2 text-sm font-medium'
+      'transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-xl px-3.5 py-2 text-sm font-semibold'
     if (activeSection === sectionId) {
-      return `${base} text-emerald-400 font-semibold bg-emerald-500/10 border border-emerald-500/30 shadow-sm`
+      return `${base} text-emerald-300 bg-emerald-500/20 border border-emerald-400/40 shadow-lg shadow-emerald-950/40`
     }
-    return `${base} text-slate-300 hover:text-emerald-400 hover:bg-slate-800/50`
+    return `${base} text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60`
   }
 
   return (
@@ -51,18 +60,24 @@ export default function Navbar() {
         {/* ── Brand / Video Logo ───────────────────────────────────── */}
         <a
           href="#hero"
-          className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-lg py-1 px-2"
+          onClick={(e) => handleNavClick(e, '#hero')}
+          className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-lg py-1 px-1"
           aria-label="Evergreen Arbor – back to top"
         >
           <VideoLogo size="md" lightText={true} />
         </a>
 
         {/* ── Desktop Navigation ───────────────────────────────────── */}
-        <div className="hidden items-center gap-1 lg:gap-2 md:flex">
+        <div className="hidden items-center gap-1.5 lg:gap-2.5 md:flex">
           {NAV_LINKS.map(({ label, href }) => {
             const sectionId = href.slice(1)
             return (
-              <a key={href} href={href} className={linkClasses(sectionId)}>
+              <a
+                key={href}
+                href={href}
+                onClick={(e) => handleNavClick(e, href)}
+                className={linkClasses(sectionId)}
+              >
                 {label}
               </a>
             )
@@ -71,7 +86,7 @@ export default function Navbar() {
           {/* Quick Call Button */}
           <a
             href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`}
-            className="ml-3 hidden xl:inline-flex items-center gap-2 px-3 py-2 text-xs font-semibold text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 rounded-lg hover:border-emerald-400 transition-colors"
+            className="ml-2 hidden xl:inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-emerald-300 bg-emerald-950/70 border border-emerald-500/40 rounded-xl hover:border-emerald-400 transition-colors"
           >
             <PhoneCall className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
             <span>{SITE_CONFIG.phone}</span>
@@ -80,7 +95,8 @@ export default function Navbar() {
           {/* CTA — desktop */}
           <a
             href="#contact"
-            className="ml-3 inline-flex items-center rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 hover:from-emerald-500 hover:to-teal-500 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition-all duration-200 glow-button"
+            onClick={(e) => handleNavClick(e, '#contact')}
+            className="ml-2 inline-flex items-center rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 px-5 py-2.5 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-950/50 hover:from-emerald-400 hover:to-teal-400 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition-all duration-200 glow-button"
           >
             Get Free Quote
           </a>
@@ -111,15 +127,15 @@ export default function Navbar() {
           isMenuOpen ? 'block' : 'hidden'
         }`}
       >
-        <ul className="flex flex-col gap-1 px-4 py-4" role="list">
+        <ul className="flex flex-col gap-1.5 px-4 py-4" role="list">
           {NAV_LINKS.map(({ label, href }) => {
             const sectionId = href.slice(1)
             return (
               <li key={href}>
                 <a
                   href={href}
-                  onClick={closeMenu}
-                  className={`flex w-full items-center py-2.5 px-3 ${linkClasses(sectionId)}`}
+                  onClick={(e) => handleNavClick(e, href)}
+                  className={`flex w-full items-center py-2.5 px-3.5 ${linkClasses(sectionId)}`}
                 >
                   {label}
                 </a>
@@ -129,8 +145,8 @@ export default function Navbar() {
           <li className="pt-2">
             <a
               href="#contact"
-              onClick={closeMenu}
-              className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 py-3 text-center text-sm font-semibold text-white shadow-lg"
+              onClick={(e) => handleNavClick(e, '#contact')}
+              className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3 text-center text-sm font-bold text-slate-950 shadow-lg"
             >
               Get Free Quote
             </a>
