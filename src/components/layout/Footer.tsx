@@ -122,10 +122,10 @@ export function Footer() {
                 Privacy Policy
               </Link>
               <Link
-                to="/cookie-policy"
+                to="/terms"
                 className="text-slate-400 hover:text-emerald-400 transition-colors"
               >
-                Cookie Policy
+                Terms &amp; Conditions
               </Link>
             </nav>
           </div>

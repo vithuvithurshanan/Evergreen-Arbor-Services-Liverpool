@@ -6,12 +6,14 @@ import { Maximize2, Camera } from 'lucide-react'
 const LightboxModal = React.lazy(() => import('@/components/ui/LightboxModal'))
 
 const CATEGORIES = [
-  { id: 'all', label: 'All Projects' },
-  { id: 'felling', label: 'Tree Felling' },
-  { id: 'pruning', label: 'Crown Pruning' },
-  { id: 'stump', label: 'Stump Grinding' },
-  { id: 'hedge', label: 'Hedge Trimming' },
-  { id: 'emergency', label: 'Emergency Call-Outs' },
+  { id: 'all',       label: 'All Projects' },
+  { id: 'removal',   label: 'Tree Removal' },
+  { id: 'pruning',   label: 'Pruning & Trimming' },
+  { id: 'stump',     label: 'Stump Grinding' },
+  { id: 'emergency', label: 'Emergency Storm' },
+  { id: 'health',    label: 'Health Assessments' },
+  { id: 'clearing',  label: 'Land Clearing' },
+  { id: 'hedge',     label: 'Hedge Trimming' },
 ] as const
 
 export default function Gallery() {
@@ -46,7 +48,7 @@ export default function Gallery() {
             Our Recent <span className="gradient-text">Work &amp; Projects</span>
           </h2>
           <p className="mt-4 text-slate-400 text-base sm:text-lg">
-            Real photography showcasing tree surgery, stump removals, and hedge maintenance across Liverpool.
+            Real photography showcasing tree removal, pruning, stump grinding, emergency storm response, health assessments, land clearing, and hedge trimming across Liverpool & Merseyside.
           </p>
         </div>
 

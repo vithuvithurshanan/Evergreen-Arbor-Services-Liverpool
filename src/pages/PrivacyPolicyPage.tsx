@@ -1,5 +1,5 @@
 /**
- * Privacy Policy page.
+ * Privacy Policy page — adapted for Evergreen Arbor Services (UK GDPR).
  *
  * Requirements: 8.1, 8.2, 11.3, 11.4
  */
@@ -8,8 +8,11 @@ import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { SITE_CONFIG } from '@/config/site'
 
+const LINK_CLS =
+  'text-emerald-400 underline hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded'
+
 export default function PrivacyPolicyPage() {
-  const { businessName, email, seo } = SITE_CONFIG
+  const { businessName, phone, email, address, seo } = SITE_CONFIG
 
   return (
     <>
@@ -17,189 +20,312 @@ export default function PrivacyPolicyPage() {
         <title>Privacy Policy | {businessName}</title>
         <meta
           name="description"
-          content={`Read the privacy policy for ${businessName}. Learn how we collect, use, and protect your personal data in accordance with UK GDPR.`}
+          content={`Privacy policy for ${businessName}. Learn how we collect, use, and protect your personal data in compliance with UK GDPR.`}
         />
         <link rel="canonical" href={`${seo.siteUrl}/privacy-policy`} />
       </Helmet>
 
-      <main id="main-content" className="py-16">
+      <main id="main-content" className="bg-slate-950 text-slate-300 min-h-screen py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
 
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-8">
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-3">
             Privacy Policy
           </h1>
+          <p className="text-sm text-slate-400 mb-10">
+            <strong className="text-slate-300">Effective Date:</strong> 19 January 2025&ensp;|&ensp;
+            <strong className="text-slate-300">Last Updated:</strong> 9 July 2026
+          </p>
 
-          <p className="text-sm text-gray-500 mb-10">Last updated: January 2025</p>
+          <p className="text-slate-300 leading-relaxed mb-10">
+            <strong className="text-white">{businessName}</strong> ("we," "our," or "us") is committed
+            to protecting your privacy and personal information. This Privacy Policy explains how we
+            collect, use, disclose, and safeguard your data in compliance with the UK General Data
+            Protection Regulation (UK GDPR) and the Data Protection Act 2018.
+          </p>
 
-          {/* 1. Data Controller */}
-          <section aria-labelledby="section-controller" className="mb-10">
-            <h2 id="section-controller" className="text-xl font-semibold text-gray-900 mb-3">
-              1. Data Controller
+          {/* 1. Information We Collect */}
+          <section aria-labelledby="pp-section-1" className="mb-10">
+            <h2 id="pp-section-1" className="text-xl font-semibold text-white mb-3">
+              1. Information We Collect
             </h2>
-            <p className="text-gray-700 leading-relaxed">
-              <strong>{businessName}</strong> is the data controller for the personal information
-              collected through this website. We are based in Liverpool, Merseyside, England.
-              You can contact us at{' '}
-              <a
-                href={`mailto:${email}`}
-                className="text-green-700 underline hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 rounded"
-              >
-                {email}
-              </a>
-              .
+            <p className="text-slate-300 leading-relaxed mb-3">
+              We may collect the following categories of personal information when you contact us,
+              request a quote, submit a web form, or use our services:
             </p>
-          </section>
-
-          {/* 2. Data We Collect */}
-          <section aria-labelledby="section-data-collected" className="mb-10">
-            <h2 id="section-data-collected" className="text-xl font-semibold text-gray-900 mb-3">
-              2. Data We Collect
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-3">
-              When you use our Quote Request Form, we collect the following personal data:
-            </p>
-            <ul className="list-disc list-inside space-y-1 text-gray-700 pl-2">
+            <ul className="list-disc list-inside space-y-1 text-slate-300 pl-2">
               <li>Full name</li>
-              <li>Phone number</li>
+              <li>Mailing or service address / postcode</li>
               <li>Email address</li>
-              <li>Service address or postcode</li>
-              <li>Details of the tree surgery work you require</li>
+              <li>Phone number (including mobile number)</li>
+              <li>Service request details and project descriptions</li>
+              <li>Communication history and preferences</li>
             </ul>
-            <p className="text-gray-700 leading-relaxed mt-3">
-              We do not collect sensitive personal data (as defined by UK GDPR Article 9).
+          </section>
+
+          {/* 2. SMS / Text Message Communications */}
+          <section aria-labelledby="pp-section-2" className="mb-10">
+            <h2 id="pp-section-2" className="text-xl font-semibold text-white mb-3">
+              2. SMS / Text Message Communications
+            </h2>
+
+            <section aria-labelledby="pp-section-2a" className="mb-6">
+              <h3 id="pp-section-2a" className="text-base font-semibold text-emerald-400 mb-2">
+                2a. How We Collect Your Mobile Number
+              </h3>
+              <p className="text-slate-300 leading-relaxed">
+                We collect your mobile phone number when you voluntarily provide it through our
+                website contact forms, phone calls, or other direct communication channels. By
+                providing your mobile number and opting in via our contact form, you expressly
+                consent to receive SMS (text message) communications from {businessName}.
+              </p>
+            </section>
+
+            <section aria-labelledby="pp-section-2b" className="mb-6">
+              <h3 id="pp-section-2b" className="text-base font-semibold text-emerald-400 mb-2">
+                2b. Types of Messages We Send
+              </h3>
+              <p className="text-slate-300 leading-relaxed mb-2">
+                By opting in, you may receive text messages from {businessName}, including:
+              </p>
+              <ul className="list-disc list-inside space-y-1 text-slate-300 pl-2">
+                <li>Free quote confirmations and appointment reminders</li>
+                <li>Project status updates and scheduling notifications</li>
+                <li>Customer support and follow-up communications</li>
+                <li>Seasonal service announcements related to our tree care services</li>
+              </ul>
+            </section>
+
+            <section aria-labelledby="pp-section-2c" className="mb-6">
+              <h3 id="pp-section-2c" className="text-base font-semibold text-emerald-400 mb-2">
+                2c. Message Frequency
+              </h3>
+              <p className="text-slate-300 leading-relaxed">
+                Message frequency varies based on your interactions with us, ongoing service needs,
+                and active enquiries. You may receive up to 4–8 messages per month depending on
+                your service activity.
+              </p>
+            </section>
+
+            <section aria-labelledby="pp-section-2d" className="mb-6">
+              <h3 id="pp-section-2d" className="text-base font-semibold text-emerald-400 mb-2">
+                2d. Message &amp; Data Rates
+              </h3>
+              <p className="text-slate-300 leading-relaxed">
+                Standard SMS rates may apply depending on your mobile carrier and tariff.{' '}
+                {businessName} is not responsible for any charges incurred from your mobile
+                network provider.
+              </p>
+            </section>
+
+            <section aria-labelledby="pp-section-2e" className="mb-6">
+              <h3 id="pp-section-2e" className="text-base font-semibold text-emerald-400 mb-2">
+                2e. How to Opt Out (STOP)
+              </h3>
+              <p className="text-slate-300 leading-relaxed">
+                You may cancel SMS messages at any time by replying <strong className="text-white">STOP</strong> to
+                any text message you receive from us. After opting out, you will receive one final
+                confirmation message and will no longer receive SMS communications from{' '}
+                {businessName} unless you re-enrol.
+              </p>
+            </section>
+
+            <section aria-labelledby="pp-section-2f" className="mb-6">
+              <h3 id="pp-section-2f" className="text-base font-semibold text-emerald-400 mb-2">
+                2f. How to Get Help (HELP)
+              </h3>
+              <p className="text-slate-300 leading-relaxed mb-2">
+                For help with our SMS communications, reply <strong className="text-white">HELP</strong> to
+                any message, or contact us directly at:
+              </p>
+              <address className="not-italic text-slate-300 space-y-1 pl-2">
+                <div>
+                  Phone:{' '}
+                  <a href={`tel:${phone.replace(/\s/g, '')}`} className={LINK_CLS}>
+                    {phone}
+                  </a>
+                </div>
+                <div>
+                  Email:{' '}
+                  <a href={`mailto:${email}`} className={LINK_CLS}>
+                    {email}
+                  </a>
+                </div>
+              </address>
+            </section>
+          </section>
+
+          {/* 3. Mobile Information & SMS Consent — No Third-Party Sharing */}
+          <section aria-labelledby="pp-section-3" className="mb-10">
+            <h2 id="pp-section-3" className="text-xl font-semibold text-white mb-3">
+              3. Mobile Information &amp; SMS Consent — No Third-Party Sharing
+            </h2>
+            <p className="text-slate-300 leading-relaxed">
+              No mobile information (including your mobile phone number and SMS opt-in consent data)
+              will be shared with third parties or affiliates for marketing or promotional purposes.
+            </p>
+            <p className="text-slate-300 leading-relaxed mt-3">
+              All other categories of personal data exclude text messaging originator opt-in data
+              and consent; this information will not be shared with any third parties under any
+              circumstances.
             </p>
           </section>
 
-          {/* 3. Purpose */}
-          <section aria-labelledby="section-purpose" className="mb-10">
-            <h2 id="section-purpose" className="text-xl font-semibold text-gray-900 mb-3">
-              3. How We Use Your Data
+          {/* 4. How We Use Your Information */}
+          <section aria-labelledby="pp-section-4" className="mb-10">
+            <h2 id="pp-section-4" className="text-xl font-semibold text-white mb-3">
+              4. How We Use Your Information
             </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Your personal data is used solely to respond to your quote request — to contact
-              you with a quote, arrange a site visit, or answer any follow-up questions you may
-              have. We do not use your data for marketing purposes, and we do not sell or share
-              it with third parties for their own commercial purposes.
+            <p className="text-slate-300 leading-relaxed mb-2">
+              We use the personal information we collect to:
+            </p>
+            <ul className="list-disc list-inside space-y-1 text-slate-300 pl-2">
+              <li>Provide and manage tree surgery and arborist services</li>
+              <li>Respond to enquiries and service requests</li>
+              <li>Schedule appointments and send reminders</li>
+              <li>Send service-related communications (with your consent)</li>
+              <li>Improve our website and service quality</li>
+              <li>Comply with applicable laws and regulations</li>
+            </ul>
+          </section>
+
+          {/* 5. Cookies and Tracking Technologies */}
+          <section aria-labelledby="pp-section-5" className="mb-10">
+            <h2 id="pp-section-5" className="text-xl font-semibold text-white mb-3">
+              5. Cookies and Tracking Technologies
+            </h2>
+            <p className="text-slate-300 leading-relaxed">
+              We use cookies and similar technologies to improve website functionality, analyse
+              traffic, and enhance user experience. Cookies do not store sensitive personal
+              information. By continuing to use this website you consent to our use of essential
+              cookies. Analytics cookies are only used with your explicit consent via our cookie
+              consent banner.
             </p>
           </section>
 
-          {/* 4. Legal Basis */}
-          <section aria-labelledby="section-legal-basis" className="mb-10">
-            <h2 id="section-legal-basis" className="text-xl font-semibold text-gray-900 mb-3">
-              4. Legal Basis for Processing
+          {/* 6. Data Security */}
+          <section aria-labelledby="pp-section-6" className="mb-10">
+            <h2 id="pp-section-6" className="text-xl font-semibold text-white mb-3">
+              6. Data Security
             </h2>
-            <p className="text-gray-700 leading-relaxed">
-              We process your personal data on the basis of our <strong>legitimate interests</strong>{' '}
-              (UK GDPR Article 6(1)(f)) in responding to your enquiry and providing our services,
-              and/or your <strong>consent</strong> (UK GDPR Article 6(1)(a)) where you have voluntarily
-              provided your details to us. You may withdraw consent at any time by contacting us
-              at the address below.
+            <p className="text-slate-300 leading-relaxed">
+              We implement reasonable administrative, technical, and physical security measures to
+              protect your personal data against unauthorised access, disclosure, alteration, or
+              destruction. However, no method of electronic transmission or storage is 100% secure,
+              and we cannot guarantee absolute security.
             </p>
           </section>
 
-          {/* 5. Data Retention */}
-          <section aria-labelledby="section-retention" className="mb-10">
-            <h2 id="section-retention" className="text-xl font-semibold text-gray-900 mb-3">
-              5. How Long We Keep Your Data
+          {/* 7. Data Retention */}
+          <section aria-labelledby="pp-section-7" className="mb-10">
+            <h2 id="pp-section-7" className="text-xl font-semibold text-white mb-3">
+              7. Data Retention
             </h2>
-            <p className="text-gray-700 leading-relaxed">
-              We retain personal data submitted through the Quote Request Form for a maximum of
-              <strong> 2 years</strong> from the date of submission. After this period, your data
-              is permanently deleted from our systems. If a contractual relationship arises from
-              your enquiry, we may retain relevant records for a longer period to fulfil our legal
-              obligations.
+            <p className="text-slate-300 leading-relaxed">
+              We retain your personal information only for as long as necessary to fulfil the
+              purposes outlined in this Privacy Policy, or as required by applicable law. Quote
+              request data is retained for a maximum of <strong className="text-white">2 years</strong> from
+              submission. When your data is no longer needed, we securely delete or anonymise it.
             </p>
           </section>
 
-          {/* 6. Your Rights */}
-          <section aria-labelledby="section-rights" className="mb-10">
-            <h2 id="section-rights" className="text-xl font-semibold text-gray-900 mb-3">
-              6. Your Rights
+          {/* 8. Your Privacy Rights */}
+          <section aria-labelledby="pp-section-8" className="mb-10">
+            <h2 id="pp-section-8" className="text-xl font-semibold text-white mb-3">
+              8. Your Privacy Rights
             </h2>
-            <p className="text-gray-700 leading-relaxed mb-3">
-              Under UK GDPR, you have the following rights in relation to your personal data:
+            <p className="text-slate-300 leading-relaxed mb-3">
+              Under UK GDPR, you have the following rights regarding your personal data:
             </p>
-            <ul className="list-disc list-inside space-y-2 text-gray-700 pl-2">
+            <ul className="list-disc list-inside space-y-2 text-slate-300 pl-2">
               <li>
-                <strong>Right of access</strong> — you can request a copy of the personal data
-                we hold about you.
+                <strong className="text-white">Access:</strong> Request a copy of the personal
+                data we hold about you.
               </li>
               <li>
-                <strong>Right to erasure</strong> — you can ask us to delete your personal data
-                at any time, subject to any legal obligations we have to retain it.
+                <strong className="text-white">Correction:</strong> Request correction of
+                inaccurate or incomplete personal data.
               </li>
               <li>
-                <strong>Right to data portability</strong> — you can request that we provide your
-                personal data in a structured, commonly used, machine-readable format.
+                <strong className="text-white">Deletion:</strong> Request deletion of your
+                personal data (including your mobile number and any SMS consent record).
               </li>
               <li>
-                <strong>Right to rectification</strong> — you can ask us to correct any inaccurate
-                or incomplete personal data we hold about you.
+                <strong className="text-white">Opt-Out of SMS:</strong> Reply{' '}
+                <strong>STOP</strong> to any text message at any time.
               </li>
               <li>
-                <strong>Right to restrict processing</strong> — in certain circumstances, you can
-                ask us to restrict how we use your data.
+                <strong className="text-white">Restriction:</strong> Request that we restrict
+                processing of your personal data in certain circumstances.
+              </li>
+              <li>
+                <strong className="text-white">Portability:</strong> Request your data in a
+                structured, machine-readable format.
+              </li>
+              <li>
+                <strong className="text-white">Object:</strong> Object to processing based on
+                legitimate interests.
               </li>
             </ul>
-            <p className="text-gray-700 leading-relaxed mt-3">
-              To exercise any of these rights, please contact us at{' '}
-              <a
-                href={`mailto:${email}`}
-                className="text-green-700 underline hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 rounded"
-              >
-                {email}
-              </a>
-              . You also have the right to lodge a complaint with the Information Commissioner's
-              Office (ICO) at{' '}
+            <p className="text-slate-300 leading-relaxed mt-4">
+              To exercise any of these rights, contact us at{' '}
+              <a href={`mailto:${email}`} className={LINK_CLS}>{email}</a>{' '}
+              or call <a href={`tel:${phone.replace(/\s/g, '')}`} className={LINK_CLS}>{phone}</a>.
+              You also have the right to lodge a complaint with the{' '}
               <a
                 href="https://ico.org.uk"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-green-700 underline hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 rounded"
+                className={LINK_CLS}
               >
-                ico.org.uk
+                Information Commissioner's Office (ICO)
               </a>
               .
             </p>
           </section>
 
-          {/* 7. Contact */}
-          <section aria-labelledby="section-contact" className="mb-10">
-            <h2 id="section-contact" className="text-xl font-semibold text-gray-900 mb-3">
-              7. Contact Us
+          {/* 9. Changes to This Privacy Policy */}
+          <section aria-labelledby="pp-section-9" className="mb-10">
+            <h2 id="pp-section-9" className="text-xl font-semibold text-white mb-3">
+              9. Changes to This Privacy Policy
             </h2>
-            <p className="text-gray-700 leading-relaxed">
-              If you have any questions about this privacy policy or how we handle your personal
-              data, please contact us:
+            <p className="text-slate-300 leading-relaxed">
+              We may update this Privacy Policy from time to time. We will post the updated policy
+              on this page with a revised "Last Updated" date. Continued use of our website or
+              services after any changes constitutes your acceptance of the updated policy.
             </p>
-            <address className="mt-3 not-italic text-gray-700 leading-relaxed">
-              <strong>{businessName}</strong><br />
-              Liverpool, Merseyside<br />
-              Email:{' '}
-              <a
-                href={`mailto:${email}`}
-                className="text-green-700 underline hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 rounded"
-              >
-                {email}
-              </a>
+          </section>
+
+          {/* 10. Contact Information */}
+          <section aria-labelledby="pp-section-10" className="mb-10">
+            <h2 id="pp-section-10" className="text-xl font-semibold text-white mb-3">
+              10. Contact Information
+            </h2>
+            <p className="text-slate-300 leading-relaxed mb-3">
+              If you have questions or concerns about this Privacy Policy, please contact us:
+            </p>
+            <address className="not-italic text-slate-300 space-y-1 bg-slate-900 border border-slate-800 rounded-xl p-5">
+              <div>
+                <strong className="text-white">Company:</strong> {businessName}
+              </div>
+              <div>
+                <strong className="text-white">Address:</strong>{' '}
+                {address.street}, {address.city}, {address.county}, {address.postcode}
+              </div>
+              <div>
+                <strong className="text-white">Phone:</strong>{' '}
+                <a href={`tel:${phone.replace(/\s/g, '')}`} className={LINK_CLS}>{phone}</a>
+              </div>
+              <div>
+                <strong className="text-white">Email:</strong>{' '}
+                <a href={`mailto:${email}`} className={LINK_CLS}>{email}</a>
+              </div>
             </address>
           </section>
 
-          {/* Navigation back */}
-          <div className="mt-8 border-t border-gray-200 pt-6">
-            <Link
-              to="/"
-              className="text-green-700 text-sm font-medium underline hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 rounded"
-            >
-              ← Back to the home page
-            </Link>
-            <span className="mx-3 text-gray-300" aria-hidden="true">|</span>
-            <Link
-              to="/cookie-policy"
-              className="text-green-700 text-sm font-medium underline hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-green-600 rounded"
-            >
-              Cookie Policy
-            </Link>
+          {/* Navigation */}
+          <div className="mt-8 border-t border-slate-800 pt-6 flex flex-wrap gap-4 text-sm">
+            <Link to="/" className={LINK_CLS}>← Back to home</Link>
+            <Link to="/terms" className={LINK_CLS}>Terms &amp; Conditions</Link>
           </div>
         </div>
       </main>

@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { Menu, X, PhoneCall } from 'lucide-react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { useClickOutside } from '../../hooks/useClickOutside'
 import { VideoLogo } from '../ui/VideoLogo'
@@ -9,35 +10,55 @@ const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
   { label: 'Services', href: '#services' },
   { label: 'About Us', href: '#about' },
-  { label: 'Gallery', href: '#gallery' },
   { label: 'Testimonials', href: '#testimonials' },
   { label: 'Contact', href: '#contact' },
 ] as const
 
-const SECTION_IDS = ['hero', 'services', 'about', 'gallery', 'testimonials', 'contact'] as const
+const SECTION_IDS = ['hero', 'services', 'about', 'testimonials', 'contact'] as const
+
+// Pages that are NOT the home page — nav hash links should navigate to / first
+const LEGAL_PATHS = ['/privacy-policy', '/terms', '/cookie-policy']
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const activeSectionFromHook = useActiveSection([...SECTION_IDS])
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  // Only run active-section tracking on the home page
+  const isHomePage = location.pathname === '/'
+  const activeSectionFromHook = useActiveSection(isHomePage ? [...SECTION_IDS] : [])
   const [overrideActive, setOverrideActive] = useState<string | null>(null)
   const navRef = useRef<HTMLElement>(null)
 
-  const activeSection = overrideActive ?? activeSectionFromHook
+  // On legal pages, no nav link should appear active
+  const activeSection = isHomePage ? (overrideActive ?? activeSectionFromHook) : ''
 
   const closeMenu = useCallback(() => setIsMenuOpen(false), [])
   const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), [])
 
   useClickOutside(navRef, closeMenu)
 
-  const handleNavClick = (_e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    const targetId = href.replace('#', '')
-    setOverrideActive(targetId)
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     closeMenu()
+    const targetId = href.replace('#', '')
 
-    // Clear manual override after scroll completes
-    setTimeout(() => {
-      setOverrideActive(null)
-    }, 800)
+    if (!isHomePage) {
+      // On legal / other pages: navigate to home first, then scroll to section
+      e.preventDefault()
+      navigate('/')
+      // After navigation, give the DOM time to render then scroll
+      setTimeout(() => {
+        const el = document.getElementById(targetId)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 100)
+      return
+    }
+
+    // On home page: just set override for highlight
+    setOverrideActive(targetId)
+    setTimeout(() => setOverrideActive(null), 800)
   }
 
   function linkClasses(sectionId: string): string {
@@ -49,6 +70,10 @@ export default function Navbar() {
     return `${base} text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60`
   }
 
+  // Logo href: on legal pages go to /, on home page go to #hero
+  const logoHref = isHomePage ? '#hero' : '/'
+  const isOnLegalPage = LEGAL_PATHS.includes(location.pathname)
+
   return (
     <nav
       ref={navRef}
@@ -59,10 +84,10 @@ export default function Navbar() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* ── Brand / Video Logo ───────────────────────────────────── */}
         <a
-          href="#hero"
-          onClick={(e) => handleNavClick(e, '#hero')}
+          href={logoHref}
+          onClick={isOnLegalPage ? undefined : (e) => handleNavClick(e, '#hero')}
           className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-lg py-1 px-1"
-          aria-label="Evergreen Arbor – back to top"
+          aria-label="Evergreen Arbor – go to home page"
         >
           <VideoLogo size="md" lightText={true} />
         </a>
@@ -74,7 +99,7 @@ export default function Navbar() {
             return (
               <a
                 key={href}
-                href={href}
+                href={isHomePage ? href : '/'}
                 onClick={(e) => handleNavClick(e, href)}
                 className={linkClasses(sectionId)}
               >
@@ -94,7 +119,7 @@ export default function Navbar() {
 
           {/* CTA — desktop */}
           <a
-            href="#contact"
+            href={isHomePage ? '#contact' : '/'}
             onClick={(e) => handleNavClick(e, '#contact')}
             className="ml-2 inline-flex items-center rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 px-5 py-2.5 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-950/50 hover:from-emerald-400 hover:to-teal-400 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition-all duration-200 glow-button"
           >
@@ -133,7 +158,7 @@ export default function Navbar() {
             return (
               <li key={href}>
                 <a
-                  href={href}
+                  href={isHomePage ? href : '/'}
                   onClick={(e) => handleNavClick(e, href)}
                   className={`flex w-full items-center py-2.5 px-3.5 ${linkClasses(sectionId)}`}
                 >
@@ -144,7 +169,7 @@ export default function Navbar() {
           })}
           <li className="pt-2">
             <a
-              href="#contact"
+              href={isHomePage ? '#contact' : '/'}
               onClick={(e) => handleNavClick(e, '#contact')}
               className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3 text-center text-sm font-bold text-slate-950 shadow-lg"
             >
