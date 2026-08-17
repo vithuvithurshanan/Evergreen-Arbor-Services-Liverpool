@@ -1,11 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function QuoteRequestForm() {
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+
   useEffect(() => {
-    // Dynamically inject the form embed script once the component mounts
+    // Inject GHL embed script
     const scriptId = 'ghl-form-script'
     let script = document.getElementById(scriptId) as HTMLScriptElement | null
-
     if (!script) {
       script = document.createElement('script')
       script.id = scriptId
@@ -14,9 +15,29 @@ export default function QuoteRequestForm() {
       document.body.appendChild(script)
     }
 
-    return () => {
-      // Clean up script if needed or leave it cached
+    // Listen for resize messages from the GHL iframe
+    const handleMessage = (event: MessageEvent) => {
+      if (!event.data) return
+      try {
+        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
+        // GHL sends height updates via postMessage
+        if (
+          data.type === 'iframeHeight' ||
+          data.type === 'resize' ||
+          (data.height && typeof data.height === 'number')
+        ) {
+          const newHeight = data.height || data.iframeHeight
+          if (newHeight && iframeRef.current) {
+            iframeRef.current.style.height = `${newHeight + 20}px`
+          }
+        }
+      } catch {
+        // ignore non-JSON messages
+      }
     }
+
+    window.addEventListener('message', handleMessage)
+    return () => window.removeEventListener('message', handleMessage)
   }, [])
 
   return (
@@ -25,11 +46,12 @@ export default function QuoteRequestForm() {
         Request a Free Quote
       </h3>
 
-      <div className="w-full overflow-hidden rounded-xl bg-slate-950 border border-slate-800" style={{ height: '915px' }}>
+      <div className="w-full rounded-xl bg-slate-950 border border-slate-800" style={{ minHeight: '950px' }}>
         <iframe
+          ref={iframeRef}
           src="https://link.kdlead.com/widget/form/cJyIrn377UwedXmVHEFg"
-          style={{ width: '100%', height: '100%', border: 'none', borderRadius: '8px' }}
-          id="inline-cJyIrn377UwedXmVHEFg" 
+          style={{ width: '100%', height: '950px', border: 'none', borderRadius: '8px', display: 'block' }}
+          id="inline-cJyIrn377UwedXmVHEFg"
           data-layout="{'id':'INLINE'}"
           data-trigger-type="alwaysShow"
           data-trigger-value=""
@@ -38,10 +60,11 @@ export default function QuoteRequestForm() {
           data-deactivation-type="neverDeactivate"
           data-deactivation-value=""
           data-form-name="Evergreen Arbor Services Liverpool"
-          data-height="915"
+          data-height="950"
           data-layout-iframe-id="inline-cJyIrn377UwedXmVHEFg"
           data-form-id="cJyIrn377UwedXmVHEFg"
           title="Evergreen Arbor Services Liverpool"
+          scrolling="no"
         />
       </div>
     </div>
