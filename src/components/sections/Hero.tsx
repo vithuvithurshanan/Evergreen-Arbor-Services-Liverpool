@@ -17,7 +17,8 @@ export default function Hero() {
           src="/images/hero-bg.jpg"
           alt="Evergreen Arbor Services professional tree surgery in Liverpool"
           className="w-full h-full object-cover scale-105 filter brightness-75 contrast-110 animate-pulse-subtle"
-          fetchPriority="high"
+          // @ts-expect-error fetchpriority is valid HTML but React types use camelCase fetchPriority which triggers a runtime warning
+          fetchpriority="high"
           decoding="async"
         />
         {/* Dark radial & linear gradient overlays for text contrast */}

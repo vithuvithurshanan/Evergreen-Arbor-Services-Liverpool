@@ -1,4 +1,4 @@
-import { Phone, Calendar } from 'lucide-react'
+import { Phone } from 'lucide-react'
 import { SITE_CONFIG } from '@/config/site'
 import { trackCtaClick } from '@/utils/analytics'
 
@@ -20,16 +20,6 @@ export function FloatingContactWidget() {
         <span className="hidden sm:inline font-bold text-sm tracking-wide">
           Call {SITE_CONFIG.phone}
         </span>
-      </a>
-
-      {/* Floating Quote Request Button (mobile quick button) */}
-      <a
-        href="#contact"
-        onClick={() => trackCtaClick('Floating Quote')}
-        aria-label="Get a free quote"
-        className="sm:hidden flex items-center justify-center rounded-full bg-slate-800/90 backdrop-blur-md p-3.5 text-emerald-400 border border-slate-700 shadow-lg hover:bg-slate-700 transition-colors"
-      >
-        <Calendar className="h-5 w-5" />
       </a>
     </div>
   )

@@ -3,16 +3,16 @@ import type { SiteConfig } from '../types'
 export const SITE_CONFIG: SiteConfig = {
   businessName: 'Evergreen Arbor Services',
   tagline: 'Professional Tree Surgery & Arborist Services in Liverpool',
-  phone: '0151 555 0192',
-  email: 'info@evergreenarborservices.co.uk',
+  phone: '716-614-8733',
+  email: 'albany@kdtreeservices.com',
   address: {
-    street: '12 Arbor Way',
+    street: '106 Kings Park Dr',
     city: 'Liverpool',
-    county: 'Merseyside',
-    postcode: 'L1 8JQ',
-    country: 'GB',
+    county: 'New York',
+    postcode: '13090',
+    country: 'US',
   },
-  serviceArea: 'Liverpool and Merseyside',
+  serviceArea: 'Liverpool and surrounding areas',
   googleMapsUrl: 'https://maps.google.com/?q=Liverpool,Merseyside',
   googleBusinessProfileUrl: 'https://maps.google.com/?q=Evergreen+Arbor+Services+Liverpool',
   social: {
