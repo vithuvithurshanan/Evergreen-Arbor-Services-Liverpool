@@ -24,7 +24,7 @@ export function CookieConsentBanner() {
               to="/cookie-policy"
               className="text-emerald-400 underline hover:text-emerald-300"
             >
-              Learn more
+              Learn more about our cookie policy
             </Link>
             .
           </p>

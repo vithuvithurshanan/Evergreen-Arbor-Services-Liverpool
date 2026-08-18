@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 interface VideoLogoProps {
   size?: 'sm' | 'md' | 'lg'
@@ -14,14 +14,36 @@ export function VideoLogo({
   className = '',
 }: VideoLogoProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [shouldLoad, setShouldLoad] = useState(false)
 
+  // Use IntersectionObserver to defer video loading until visible
   useEffect(() => {
-    if (videoRef.current) {
+    const el = containerRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '100px' }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  // Play video once it's loaded
+  useEffect(() => {
+    if (shouldLoad && videoRef.current) {
       videoRef.current.play().catch(() => {
         // Autoplay fallback catch
       })
     }
-  }, [])
+  }, [shouldLoad])
 
   // Oval sizes (horizontal ratio)
   const containerSizes = {
@@ -37,22 +59,28 @@ export function VideoLogo({
   }
 
   return (
-    <div className={`flex items-center gap-3 group ${className}`}>
+    <div ref={containerRef} className={`flex items-center gap-3 group ${className}`}>
       {/* Video Badge Container with sleek Oval Shape */}
       <div
         className={`relative ${containerSizes[size]} flex-shrink-0 overflow-hidden p-[2px] bg-gradient-to-tr from-emerald-500 via-teal-300 to-green-400 shadow-md group-hover:shadow-emerald-500/40 group-hover:scale-105 transition-all duration-300`}
       >
         <div className="w-full h-full rounded-[2.5rem] overflow-hidden bg-slate-950 flex items-center justify-center relative">
-          <video
-            ref={videoRef}
-            src="/logo.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            aria-hidden="true"
-            className="w-full h-full object-cover scale-110"
-          />
+          {shouldLoad ? (
+            <video
+              ref={videoRef}
+              src="/logo.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="none"
+              aria-hidden="true"
+              className="w-full h-full object-cover scale-110"
+            />
+          ) : (
+            /* Static placeholder while video is deferred */
+            <div className="w-full h-full bg-slate-900" aria-hidden="true" />
+          )}
         </div>
       </div>
 
@@ -80,3 +108,4 @@ export function VideoLogo({
     </div>
   )
 }
+

@@ -122,21 +122,25 @@ export default function LightboxModal({
           onClick={(e) => e.stopPropagation()}
         >
           {currentImage ? (
-            <img
-              key={currentImage.id}
-              src={currentImage.src}
-              alt={currentImage.alt}
-              width={currentImage.width}
-              height={currentImage.height}
-              className="max-h-[85vh] max-w-[85vw] object-contain rounded-lg shadow-2xl"
-              onError={(e) => {
-                const target = e.currentTarget
-                // Show alt text as visible fallback
-                target.style.display = 'none'
-                const fallback = target.nextElementSibling as HTMLElement | null
-                if (fallback) fallback.style.display = 'flex'
-              }}
-            />
+            <picture>
+              <source srcSet={currentImage.src.replace(/\.webp$/i, '.avif')} type="image/avif" />
+              <source srcSet={currentImage.src} type="image/webp" />
+              <img
+                key={currentImage.id}
+                src={currentImage.srcFallback}
+                alt={currentImage.alt}
+                width={currentImage.width}
+                height={currentImage.height}
+                className="max-h-[85vh] max-w-[85vw] object-contain rounded-lg shadow-2xl"
+                onError={(e) => {
+                  const target = e.currentTarget
+                  // Show alt text as visible fallback
+                  target.style.display = 'none'
+                  const fallback = target.nextElementSibling as HTMLElement | null
+                  if (fallback) fallback.style.display = 'flex'
+                }}
+              />
+            </picture>
           ) : null}
           {/* Alt text fallback shown on image error */}
           <div

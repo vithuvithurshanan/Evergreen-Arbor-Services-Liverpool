@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import { useRef, useEffect } from 'react'
 import { ChevronDown, Check } from 'lucide-react'
 import type { ServiceItem } from '@/types'
 
@@ -10,6 +10,18 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ service, isExpanded, onToggle }: ServiceCardProps) {
   const Icon = service.icon
+  const panelRef = useRef<HTMLDivElement>(null)
+
+  // Dynamically set max-height to the content's scrollHeight for a smooth CSS transition
+  useEffect(() => {
+    const el = panelRef.current
+    if (!el) return
+    if (isExpanded) {
+      el.style.maxHeight = `${el.scrollHeight}px`
+    } else {
+      el.style.maxHeight = '0px'
+    }
+  }, [isExpanded])
 
   return (
     <article className="glass-card rounded-2xl border border-slate-800 bg-slate-900/60 p-6 flex flex-col justify-between transition-all duration-300 hover:border-emerald-500/40 hover:shadow-xl hover:shadow-emerald-950/20 group">
@@ -29,32 +41,28 @@ export default function ServiceCard({ service, isExpanded, onToggle }: ServiceCa
           {service.shortDescription}
         </p>
 
-        {/* Expanded description via Accordion */}
-        <AnimatePresence initial={false}>
-          {isExpanded && (
-            <motion.div
-              id={`panel-${service.id}`}
-              role="region"
-              aria-labelledby={`toggle-${service.id}`}
-              key={`panel-${service.id}`}
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="overflow-hidden"
-            >
-              <div className="pt-4 mt-4 border-t border-slate-800/80 space-y-3">
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  {service.fullDescription}
-                </p>
-                <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 pt-1">
-                  <Check className="w-4 h-4 text-emerald-400" />
-                  <span>BS 3998 British Standard Compliant</span>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Expanded description via CSS Accordion */}
+        <div
+          ref={panelRef}
+          id={`panel-${service.id}`}
+          role="region"
+          aria-labelledby={`toggle-${service.id}`}
+          className="overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out"
+          style={{
+            maxHeight: 0,
+            opacity: isExpanded ? 1 : 0,
+          }}
+        >
+          <div className="pt-4 mt-4 border-t border-slate-800/80 space-y-3">
+            <p className="text-sm text-slate-300 leading-relaxed">
+              {service.fullDescription}
+            </p>
+            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 pt-1">
+              <Check className="w-4 h-4 text-emerald-400" />
+              <span>BS 3998 British Standard Compliant</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Toggle button */}

@@ -90,13 +90,18 @@ export default function About() {
           {/* Right Column: Real Team Image Frame */}
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl group">
-              <img
-                src="/images/team-photo.jpg"
+              <picture>
+                <source srcSet="/images/team-photo.avif" type="image/avif" />
+                <source srcSet="/images/team-photo.webp" type="image/webp" />
+                <img
+                  src="/images/team-photo.jpg"
                 alt="The Evergreen Arbor Services team at work in Liverpool"
                 width={600}
                 height={400}
+                loading="lazy"
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
               />
+              </picture>
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
               
               {/* Overlay Badge */}

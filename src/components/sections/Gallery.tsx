@@ -80,14 +80,18 @@ export default function Gallery() {
                 aria-label={`View larger: ${image.alt}`}
                 className="group relative block w-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 aspect-4/3 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
               >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  width={image.width}
-                  height={image.height}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
+                <picture>
+                  <source srcSet={image.src.replace(/\.webp$/i, '.avif')} type="image/avif" />
+                  <source srcSet={image.src} type="image/webp" />
+                  <img
+                    src={image.srcFallback}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                </picture>
 
                 {/* Hover overlay with zoom icon */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-left">
