@@ -13,14 +13,18 @@ export default function Hero() {
     >
       {/* ── Background Photography & Glass Overlay ──────────────────── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
-          src="/images/hero-bg.jpg"
-          alt="Evergreen Arbor Services professional tree surgery in Liverpool"
-          className="w-full h-full object-cover scale-105 filter brightness-75 contrast-110 animate-pulse-subtle"
-          // @ts-expect-error fetchpriority is valid HTML but React types use camelCase fetchPriority which triggers a runtime warning
-          fetchpriority="high"
-          decoding="async"
-        />
+        <picture>
+          <source srcSet="/images/hero-bg.avif" type="image/avif" />
+          <source srcSet="/images/hero-bg.webp" type="image/webp" />
+          <img
+            src="/images/hero-bg.jpg"
+            alt="Evergreen Arbor Services professional tree surgery in Liverpool"
+            className="w-full h-full object-cover scale-105 filter brightness-75 contrast-110 animate-pulse-subtle"
+            // @ts-expect-error fetchpriority is valid HTML but React types use camelCase fetchPriority which triggers a runtime warning
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
         {/* Dark radial & linear gradient overlays for text contrast */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/60" />
@@ -100,7 +104,7 @@ export default function Hero() {
                   <Award className="w-7 h-7 text-emerald-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">16+ Years Experience</h3>
+                  <h2 className="text-xl font-bold text-white">16+ Years Experience</h2>
                   <p className="text-xs text-slate-400">Serving Liverpool homeowners &amp; commercial clients since 2008</p>
                 </div>
               </div>

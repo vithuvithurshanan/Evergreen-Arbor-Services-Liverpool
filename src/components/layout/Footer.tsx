@@ -20,7 +20,7 @@ export function Footer() {
           {/* Brand info */}
           <div className="space-y-4 lg:col-span-1">
             <VideoLogo size="lg" lightText={true} />
-            <p className="text-sm text-slate-400 leading-relaxed mt-2">
+            <p className="text-sm text-slate-300 leading-relaxed mt-2">
               {tagline}
             </p>
             <div className="flex items-center gap-2 text-xs text-emerald-400 font-semibold bg-emerald-950/60 border border-emerald-500/30 rounded-full px-3 py-1 w-fit">
@@ -53,7 +53,7 @@ export function Footer() {
                   <span>{email}</span>
                 </a>
               </li>
-              <li className="flex items-start gap-2.5 text-slate-400 text-xs leading-relaxed">
+              <li className="flex items-start gap-2.5 text-slate-300 text-xs leading-relaxed">
                 <MapPin className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                 <span>Serving {serviceArea}</span>
               </li>
@@ -114,13 +114,13 @@ export function Footer() {
             <nav aria-label="Legal" className="flex flex-col gap-2 text-xs">
               <Link
                 to="/privacy-policy"
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-300 hover:text-emerald-400 transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link
                 to="/terms"
-                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                className="text-slate-300 hover:text-emerald-400 transition-colors"
               >
                 Terms &amp; Conditions
               </Link>
@@ -129,9 +129,9 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-300">
           <p>&copy; {year} {businessName}. All rights reserved.</p>
-          <p className="text-slate-400">Professional Tree Surgeons in Liverpool &amp; Merseyside</p>
+          <p className="text-slate-300 font-medium">Professional Tree Surgeons in Liverpool &amp; Merseyside</p>
         </div>
       </div>
     </footer>
